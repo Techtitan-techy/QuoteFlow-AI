@@ -419,20 +419,10 @@ function AIAssistDialog({ open, onOpenChange, onApply }: { open: boolean; onOpen
     }
     setLoading(true);
     try {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      const token = session?.access_token;
-
-      if (!token) {
-        toast.error("Authentication error: No active session token found. Please sign in again.");
-        setLoading(false);
-        return;
-      }
-
       const result = await analyze({ 
         data: {
           documentation: doc, 
           projectName: name || undefined,
-          token: token
         }
       });
       onApply(result);
