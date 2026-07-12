@@ -75,10 +75,10 @@ export function QuotationEditor({ initial, onSaved }: { initial: QuotationDraft;
 
   const save = useMutation({
     mutationFn: async (statusOverride?: string) => {
-      const { data: u } = await supabase.auth.getUser();
-      if (!u.user) throw new Error("Not signed in");
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not signed in");
       const payload = {
-        user_id: u.user.id,
+        user_id: session.user.id,
         client_id: q.client_id,
         quotation_number: q.quotation_number,
         title: q.title || null,
