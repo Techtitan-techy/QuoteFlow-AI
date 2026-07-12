@@ -114,7 +114,10 @@ export type QuotationPdfData = {
 };
 
 export function QuotationPdf({ data }: { data: QuotationPdfData }) {
-  const money = (n: number) => formatMoney(n, data.currency);
+  const money = (n: number) => {
+    const formatted = formatMoney(n, data.currency);
+    return formatted.replace("₹", "Rs. ").replace("د.إ", "AED ");
+  };
   const included = data.features.filter((f) => f.included);
   const subtotalAfterDiscount = data.subtotal * (1 - (data.discountPercent || 0) / 100);
   const taxAmount = subtotalAfterDiscount * ((data.taxPercent || 0) / 100);
@@ -178,7 +181,7 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
         </View>
 
         {included.length > 0 && (
-          <View style={[s.section, { marginTop: 16 }]}>
+          <View style={[s.section, { marginTop: 16 }]} wrap={false}>
             <Text style={s.h2}>Features & Deliverables</Text>
             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
               {data.features.map((f) => (
@@ -193,7 +196,7 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
           </View>
         )}
 
-        <View style={s.section}>
+        <View style={s.section} wrap={false}>
           <Text style={s.h2}>Payment Schedule</Text>
           <View style={s.table}>
             <View style={s.tr}>
@@ -214,7 +217,7 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
         </View>
 
         {data.timeline.length > 0 && (
-          <View style={s.section}>
+          <View style={s.section} wrap={false}>
             <Text style={s.h2}>Project Timeline</Text>
             {data.timeline.map((t) => (
               <View key={t.id} style={s.timelineItem}>
@@ -225,7 +228,7 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
           </View>
         )}
 
-        <View style={{ ...s.section, alignItems: "flex-end" }}>
+        <View style={{ ...s.section, alignItems: "flex-end" }} wrap={false}>
           <View style={{ width: 220 }}>
             <View style={s.totalCell}>
               <Text>Subtotal</Text>
@@ -252,7 +255,7 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
         </View>
 
         {(data.company.bank_details?.account_number || data.company.upi_id) && (
-          <View style={s.section}>
+          <View style={s.section} wrap={false}>
             <Text style={s.h2}>Payment Details</Text>
             <View style={s.block}>
               {data.company.bank_details?.account_name ? (
@@ -277,14 +280,14 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
         )}
 
         {data.notes ? (
-          <View style={s.section}>
+          <View style={s.section} wrap={false}>
             <Text style={s.h2}>Notes</Text>
             <Text style={{ fontSize: 9, color: "#334155", lineHeight: 1.5 }}>{data.notes}</Text>
           </View>
         ) : null}
 
         {data.terms ? (
-          <View style={s.section}>
+          <View style={s.section} wrap={false}>
             <Text style={s.h2}>Terms & Conditions</Text>
             <Text style={{ fontSize: 9, color: "#334155", lineHeight: 1.5 }}>{data.terms}</Text>
           </View>
