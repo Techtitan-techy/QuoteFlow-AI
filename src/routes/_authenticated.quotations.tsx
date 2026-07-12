@@ -11,7 +11,7 @@ import { StatusBadge } from "./_authenticated.dashboard";
 
 export const Route = createFileRoute("/_authenticated/quotations")({
   component: QuotationsShell,
-  head: () => ({ meta: [{ title: "Quotations — QuoteFlow ai" }] }),
+  head: () => ({ meta: [{ title: "Quotations — QuoteFlow AI" }] }),
 });
 
 function QuotationsShell() {

@@ -191,7 +191,7 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
         ) : null}
 
         <Text style={s.footer} fixed>
-          {data.company.company_name || "QuoteFlow ai"} • Generated with QuoteFlow ai
+          {data.company.company_name || "QuoteFlow AI"} • Generated with QuoteFlow AI
         </Text>
       </Page>
     </Document>

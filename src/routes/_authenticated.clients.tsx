@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/clients")({
   component: Clients,
-  head: () => ({ meta: [{ title: "Clients — QuoteFlow ai" }] }),
+  head: () => ({ meta: [{ title: "Clients — QuoteFlow AI" }] }),
 });
 
 type Client = {

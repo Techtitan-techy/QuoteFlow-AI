@@ -14,7 +14,7 @@ import { Building2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   component: SettingsPage,
-  head: () => ({ meta: [{ title: "Settings — QuoteFlow ai" }] }),
+  head: () => ({ meta: [{ title: "Settings — QuoteFlow AI" }] }),
 });
 
 type Profile = {

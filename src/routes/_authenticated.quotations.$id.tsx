@@ -7,7 +7,7 @@ import type { Feature, Milestone, TimelineStep } from "@/lib/quotation-utils";
 
 export const Route = createFileRoute("/_authenticated/quotations/$id")({
   component: EditQuotation,
-  head: () => ({ meta: [{ title: "Quotation — QuoteFlow ai" }] }),
+  head: () => ({ meta: [{ title: "Quotation — QuoteFlow AI" }] }),
 });
 
 function EditQuotation() {
