@@ -40,15 +40,12 @@ export const analyzeDocumentation = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => InputSchema.parse(data))
   .handler(async ({ data }): Promise<AIResult> => {
     if (!data.token) throw new Error("Unauthorized: No token provided");
-    
-    if (data.token !== "mock_token") {
-      const SUPABASE_URL = process.env.SUPABASE_URL;
-      const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
-      if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) throw new Error("Missing Supabase environment variables");
-      const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
-      const { data: { user }, error } = await supabase.auth.getUser(data.token);
-      if (error || !user) throw new Error("Unauthorized: Invalid token");
-    }
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+    if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) throw new Error("Missing Supabase environment variables");
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
+    const { data: { user }, error } = await supabase.auth.getUser(data.token);
+    if (error || !user) throw new Error("Unauthorized: Invalid token");
 
     const key = process.env.GEMINI_API_KEY;
     if (!key) throw new Error("GEMINI_API_KEY not configured");

@@ -419,18 +419,24 @@ function AIAssistDialog({ open, onOpenChange, onApply }: { open: boolean; onOpen
     }
     setLoading(true);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       let token = session?.access_token;
       
       if (!token && typeof window !== "undefined" && localStorage.getItem("mock_admin") === "true") {
         token = "mock_token";
       }
 
+      if (!token) {
+        toast.error("Authentication error: No active session token found on the client. " + (sessionError?.message || ""));
+        setLoading(false);
+        return;
+      }
+      
       const result = await analyze({ 
         data: {
           documentation: doc, 
           projectName: name || undefined,
-          token: token ?? undefined
+          token: token
         }
       });
       onApply(result);
