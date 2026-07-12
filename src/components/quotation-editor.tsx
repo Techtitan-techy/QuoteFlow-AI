@@ -419,7 +419,13 @@ function AIAssistDialog({ open, onOpenChange, onApply }: { open: boolean; onOpen
     }
     setLoading(true);
     try {
-      const result = await analyze({ data: { documentation: doc, projectName: name || undefined } });
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      
+      const result = await analyze({ 
+        data: { documentation: doc, projectName: name || undefined },
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined
+      });
       onApply(result);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "AI request failed");

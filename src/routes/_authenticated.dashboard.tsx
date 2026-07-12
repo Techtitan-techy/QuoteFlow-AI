@@ -9,7 +9,7 @@ import { formatMoney } from "@/lib/currencies";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
-  head: () => ({ meta: [{ title: "Dashboard — QuoteFlow AI" }] }),
+  head: () => ({ meta: [{ title: "Dashboard — QuoteFlow ai" }] }),
 });
 
 function Dashboard() {
