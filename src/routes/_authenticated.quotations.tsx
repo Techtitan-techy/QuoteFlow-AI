@@ -27,7 +27,10 @@ function QuotationsList() {
   const { data = [], isLoading } = useQuery({
     queryKey: ["quotations"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("quotations").select("*").order("created_at", { ascending: false });
+      const { data, error } = await supabase
+        .from("quotations")
+        .select("*")
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data ?? [];
     },
@@ -50,12 +53,21 @@ function QuotationsList() {
           <h1 className="text-3xl font-bold tracking-tight">Quotations</h1>
           <p className="mt-1 text-muted-foreground">All your quotes in one place.</p>
         </div>
-        <Button asChild className="gap-2"><Link to="/quotations/new"><Plus className="h-4 w-4" /> New Quotation</Link></Button>
+        <Button asChild className="gap-2">
+          <Link to="/quotations/new">
+            <Plus className="h-4 w-4" /> New Quotation
+          </Link>
+        </Button>
       </div>
 
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by title, number, or client…" className="pl-9" />
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by title, number, or client…"
+          className="pl-9"
+        />
       </div>
 
       {isLoading ? (
@@ -64,7 +76,9 @@ function QuotationsList() {
         <Card className="p-12 text-center">
           <FileText className="mx-auto mb-3 h-10 w-10 text-muted-foreground/40" />
           <p className="mb-4 text-sm text-muted-foreground">No quotations yet.</p>
-          <Button asChild><Link to="/quotations/new">Create your first quote</Link></Button>
+          <Button asChild>
+            <Link to="/quotations/new">Create your first quote</Link>
+          </Button>
         </Card>
       ) : (
         <Card className="overflow-hidden">
@@ -84,10 +98,13 @@ function QuotationsList() {
                       <StatusBadge status={q.status} />
                     </div>
                     <div className="mt-0.5 truncate text-xs text-muted-foreground">
-                      #{q.quotation_number} · {snap?.business_name || "No client"} · {new Date(q.created_at).toLocaleDateString()}
+                      #{q.quotation_number} · {snap?.business_name || "No client"} ·{" "}
+                      {new Date(q.created_at).toLocaleDateString()}
                     </div>
                   </div>
-                  <div className="text-right font-semibold">{formatMoney(Number(q.total || 0), q.currency)}</div>
+                  <div className="text-right font-semibold">
+                    {formatMoney(Number(q.total || 0), q.currency)}
+                  </div>
                 </Link>
               );
             })}

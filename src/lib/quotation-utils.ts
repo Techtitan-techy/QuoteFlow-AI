@@ -28,7 +28,7 @@ export function calcTotal(subtotal: number, discountPercent: number, taxPercent:
   const total = afterDiscount * (1 + (taxPercent || 0) / 100);
   return {
     afterDiscount: Math.round(afterDiscount * 100) / 100,
-    tax: Math.round((afterDiscount * ((taxPercent || 0) / 100)) * 100) / 100,
+    tax: Math.round(afterDiscount * ((taxPercent || 0) / 100) * 100) / 100,
     total: Math.round(total * 100) / 100,
   };
 }

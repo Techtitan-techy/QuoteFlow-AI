@@ -4,7 +4,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Users, TrendingUp, Clock, CheckCircle2, XCircle, Plus, ArrowUpRight } from "lucide-react";
+import {
+  FileText,
+  Users,
+  TrendingUp,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  Plus,
+  ArrowUpRight,
+} from "lucide-react";
 import { formatMoney } from "@/lib/currencies";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
@@ -17,7 +26,10 @@ function Dashboard() {
     queryKey: ["dashboard"],
     queryFn: async () => {
       const [quotes, clients] = await Promise.all([
-        supabase.from("quotations").select("id,status,total,currency,quotation_number,title,created_at,client_snapshot").order("created_at", { ascending: false }),
+        supabase
+          .from("quotations")
+          .select("id,status,total,currency,quotation_number,title,created_at,client_snapshot")
+          .order("created_at", { ascending: false }),
         supabase.from("clients").select("id"),
       ]);
       return {
@@ -32,7 +44,9 @@ function Dashboard() {
   const accepted = qs.filter((q) => q.status === "accepted").length;
   const pending = qs.filter((q) => q.status === "draft" || q.status === "sent").length;
   const rejected = qs.filter((q) => q.status === "rejected").length;
-  const revenue = qs.filter((q) => q.status === "accepted").reduce((s, q) => s + Number(q.total || 0), 0);
+  const revenue = qs
+    .filter((q) => q.status === "accepted")
+    .reduce((s, q) => s + Number(q.total || 0), 0);
   const revCurrency = qs.find((q) => q.status === "accepted")?.currency ?? "INR";
 
   return (
@@ -43,7 +57,9 @@ function Dashboard() {
           <p className="mt-1 text-muted-foreground">Overview of your quotations and pipeline.</p>
         </div>
         <Button asChild className="gap-2 shadow-elegant">
-          <Link to="/quotations/new"><Plus className="h-4 w-4" /> Quick Generate</Link>
+          <Link to="/quotations/new">
+            <Plus className="h-4 w-4" /> Quick Generate
+          </Link>
         </Button>
       </div>
 
@@ -59,7 +75,8 @@ function Dashboard() {
           <div className="mb-1 text-sm text-muted-foreground">Revenue (accepted)</div>
           <div className="text-3xl font-bold">{formatMoney(revenue, revCurrency)}</div>
           <div className="mt-1 flex items-center gap-1 text-xs text-success">
-            <TrendingUp className="h-3 w-3" /> From {accepted} accepted quote{accepted === 1 ? "" : "s"}
+            <TrendingUp className="h-3 w-3" /> From {accepted} accepted quote
+            {accepted === 1 ? "" : "s"}
           </div>
         </Card>
         <Card className="p-6">
@@ -67,7 +84,10 @@ function Dashboard() {
             <Users className="h-4 w-4" /> Clients
           </div>
           <div className="text-3xl font-bold">{data?.clientCount ?? 0}</div>
-          <Link to="/clients" className="mt-1 inline-flex items-center gap-1 text-xs text-primary hover:underline">
+          <Link
+            to="/clients"
+            className="mt-1 inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          >
             Manage clients <ArrowUpRight className="h-3 w-3" />
           </Link>
         </Card>
@@ -79,7 +99,9 @@ function Dashboard() {
             <h2 className="font-semibold">Recent Quotations</h2>
             <p className="text-xs text-muted-foreground">Your latest 10 quotes</p>
           </div>
-          <Button asChild variant="ghost" size="sm"><Link to="/quotations">View all</Link></Button>
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/quotations">View all</Link>
+          </Button>
         </div>
         {isLoading ? (
           <div className="p-10 text-center text-sm text-muted-foreground">Loading…</div>
@@ -87,7 +109,9 @@ function Dashboard() {
           <div className="p-12 text-center">
             <FileText className="mx-auto mb-3 h-10 w-10 text-muted-foreground/40" />
             <p className="mb-4 text-sm text-muted-foreground">No quotations yet.</p>
-            <Button asChild><Link to="/quotations/new">Create your first quote</Link></Button>
+            <Button asChild>
+              <Link to="/quotations/new">Create your first quote</Link>
+            </Button>
           </div>
         ) : (
           <div className="divide-y">
@@ -109,7 +133,9 @@ function Dashboard() {
                       #{q.quotation_number} · {snap?.business_name || "No client"}
                     </div>
                   </div>
-                  <div className="text-right font-semibold">{formatMoney(Number(q.total || 0), q.currency)}</div>
+                  <div className="text-right font-semibold">
+                    {formatMoney(Number(q.total || 0), q.currency)}
+                  </div>
                 </Link>
               );
             })}
@@ -120,7 +146,17 @@ function Dashboard() {
   );
 }
 
-function Stat({ title, value, icon: Icon, accent }: { title: string; value: number; icon: React.ComponentType<{ className?: string }>; accent: string }) {
+function Stat({
+  title,
+  value,
+  icon: Icon,
+  accent,
+}: {
+  title: string;
+  value: number;
+  icon: React.ComponentType<{ className?: string }>;
+  accent: string;
+}) {
   return (
     <Card className="p-6 transition-transform hover:-translate-y-0.5 hover:shadow-elegant">
       <div className="flex items-center justify-between">
@@ -141,5 +177,9 @@ export function StatusBadge({ status }: { status: string }) {
     expired: { label: "Expired", className: "bg-warning/10 text-warning" },
   };
   const s = map[status] ?? map.draft;
-  return <Badge variant="secondary" className={s.className}>{s.label}</Badge>;
+  return (
+    <Badge variant="secondary" className={s.className}>
+      {s.label}
+    </Badge>
+  );
 }

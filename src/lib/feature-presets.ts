@@ -6,15 +6,8 @@ export const FEATURE_PRESETS: Record<string, string[]> = {
     "PWA",
     "Mobile Responsive",
   ],
-  "Auth": [
-    "Login",
-    "Signup",
-    "Authentication",
-    "User Roles",
-    "OTP Login",
-    "Social Login",
-  ],
-  "Commerce": [
+  Auth: ["Login", "Signup", "Authentication", "User Roles", "OTP Login", "Social Login"],
+  Commerce: [
     "Product Management",
     "Categories",
     "Inventory",
@@ -24,28 +17,19 @@ export const FEATURE_PRESETS: Record<string, string[]> = {
     "Coupons",
     "Multi Vendor",
   ],
-  "Payments": [
-    "Payment Gateway",
-    "Razorpay",
-    "Stripe",
-    "Cash on Delivery",
-  ],
-  "Discovery": ["Search", "Filters", "Reviews"],
-  "Content": ["CMS", "Blog", "SEO", "Contact Form"],
-  "Analytics": ["Analytics", "Dashboard", "Reports"],
-  "Comms": [
+  Payments: ["Payment Gateway", "Razorpay", "Stripe", "Cash on Delivery"],
+  Discovery: ["Search", "Filters", "Reviews"],
+  Content: ["CMS", "Blog", "SEO", "Contact Form"],
+  Analytics: ["Analytics", "Dashboard", "Reports"],
+  Comms: [
     "WhatsApp Integration",
     "Email Notifications",
     "SMS",
     "Push Notifications",
     "Chat Support",
   ],
-  "Integrations": [
-    "API Integration",
-    "Google Maps",
-    "Multi Language",
-  ],
-  "Deployment": [
+  Integrations: ["API Integration", "Google Maps", "Multi Language"],
+  Deployment: [
     "Hosting Setup",
     "Domain Setup",
     "SSL",

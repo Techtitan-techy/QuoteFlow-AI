@@ -17,7 +17,11 @@ function NewQuotation() {
     queryFn: async () => {
       const { data: u } = await supabase.auth.getUser();
       if (!u.user) return null;
-      const { data } = await supabase.from("profiles").select("*").eq("id", u.user.id).maybeSingle();
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", u.user.id)
+        .maybeSingle();
       return data;
     },
   });
@@ -42,5 +46,10 @@ function NewQuotation() {
     status: "draft",
   };
 
-  return <QuotationEditor initial={draft} onSaved={(id) => navigate({ to: "/quotations/$id", params: { id } })} />;
+  return (
+    <QuotationEditor
+      initial={draft}
+      onSaved={(id) => navigate({ to: "/quotations/$id", params: { id } })}
+    />
+  );
 }

@@ -4,10 +4,24 @@ import { formatMoney } from "@/lib/currencies";
 
 const s = StyleSheet.create({
   page: { padding: 40, fontFamily: "Helvetica", fontSize: 10, color: "#0f172a" },
-  header: { flexDirection: "row", justifyContent: "space-between", marginBottom: 24, borderBottom: 2, borderColor: "#2563eb", paddingBottom: 12 },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 24,
+    borderBottom: 2,
+    borderColor: "#2563eb",
+    paddingBottom: 12,
+  },
   brand: { fontSize: 22, fontWeight: 700, color: "#2563eb" },
   meta: { fontSize: 9, color: "#64748b", textAlign: "right" },
-  h2: { fontSize: 12, fontWeight: 700, marginBottom: 6, color: "#1e293b", textTransform: "uppercase", letterSpacing: 0.5 },
+  h2: {
+    fontSize: 12,
+    fontWeight: 700,
+    marginBottom: 6,
+    color: "#1e293b",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
   section: { marginBottom: 16 },
   row: { flexDirection: "row", gap: 16 },
   col: { flex: 1 },
@@ -15,16 +29,50 @@ const s = StyleSheet.create({
   label: { fontSize: 8, color: "#64748b", marginBottom: 2, textTransform: "uppercase" },
   value: { fontSize: 10, fontWeight: 600 },
   featureRow: { flexDirection: "row", alignItems: "center", marginBottom: 4, paddingVertical: 3 },
-  check: { width: 12, height: 12, marginRight: 6, backgroundColor: "#2563eb", borderRadius: 2, textAlign: "center", color: "white", fontSize: 8, fontWeight: 700, paddingTop: 1 },
-  uncheck: { width: 12, height: 12, marginRight: 6, borderWidth: 1, borderColor: "#cbd5e1", borderRadius: 2 },
+  check: {
+    width: 12,
+    height: 12,
+    marginRight: 6,
+    backgroundColor: "#2563eb",
+    borderRadius: 2,
+    textAlign: "center",
+    color: "white",
+    fontSize: 8,
+    fontWeight: 700,
+    paddingTop: 1,
+  },
+  uncheck: {
+    width: 12,
+    height: 12,
+    marginRight: 6,
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    borderRadius: 2,
+  },
   table: { borderWidth: 1, borderColor: "#e2e8f0", borderRadius: 6 },
   tr: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#e2e8f0" },
   th: { padding: 8, backgroundColor: "#f1f5f9", fontWeight: 700, fontSize: 9 },
   td: { padding: 8, fontSize: 10 },
   totalRow: { flexDirection: "row", justifyContent: "flex-end", marginTop: 4 },
-  totalCell: { width: 180, flexDirection: "row", justifyContent: "space-between", paddingVertical: 3 },
+  totalCell: {
+    width: 180,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 3,
+  },
   grandTotal: { fontSize: 14, fontWeight: 700, color: "#2563eb" },
-  footer: { position: "absolute", bottom: 24, left: 40, right: 40, textAlign: "center", fontSize: 8, color: "#94a3b8", borderTopWidth: 1, borderTopColor: "#e2e8f0", paddingTop: 8 },
+  footer: {
+    position: "absolute",
+    bottom: 24,
+    left: 40,
+    right: 40,
+    textAlign: "center",
+    fontSize: 8,
+    color: "#94a3b8",
+    borderTopWidth: 1,
+    borderTopColor: "#e2e8f0",
+    paddingTop: 8,
+  },
   timelineItem: { flexDirection: "row", marginBottom: 4 },
   weekBadge: { width: 60, fontWeight: 700, color: "#2563eb" },
 });
@@ -77,11 +125,21 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
         <View style={s.header}>
           <View>
             <Text style={s.brand}>{data.company.company_name || "Your Company"}</Text>
-            <Text style={{ fontSize: 8, color: "#64748b", marginTop: 4 }}>{data.company.company_address || ""}</Text>
-            <Text style={{ fontSize: 8, color: "#64748b" }}>
-              {[data.company.company_email, data.company.company_phone, data.company.company_website].filter(Boolean).join("  •  ")}
+            <Text style={{ fontSize: 8, color: "#64748b", marginTop: 4 }}>
+              {data.company.company_address || ""}
             </Text>
-            {data.company.gst_number ? <Text style={{ fontSize: 8, color: "#64748b" }}>GST: {data.company.gst_number}</Text> : null}
+            <Text style={{ fontSize: 8, color: "#64748b" }}>
+              {[
+                data.company.company_email,
+                data.company.company_phone,
+                data.company.company_website,
+              ]
+                .filter(Boolean)
+                .join("  •  ")}
+            </Text>
+            {data.company.gst_number ? (
+              <Text style={{ fontSize: 8, color: "#64748b" }}>GST: {data.company.gst_number}</Text>
+            ) : null}
           </View>
           <View style={s.meta}>
             <Text style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>QUOTATION</Text>
@@ -95,15 +153,27 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
           <View style={[s.col, s.block]}>
             <Text style={s.label}>Billed To</Text>
             <Text style={s.value}>{data.client.business_name || "—"}</Text>
-            {data.client.contact_person ? <Text style={{ fontSize: 9 }}>{data.client.contact_person}</Text> : null}
-            {data.client.email ? <Text style={{ fontSize: 9, color: "#64748b" }}>{data.client.email}</Text> : null}
-            {data.client.phone ? <Text style={{ fontSize: 9, color: "#64748b" }}>{data.client.phone}</Text> : null}
-            {data.client.billing_address ? <Text style={{ fontSize: 9, color: "#64748b", marginTop: 2 }}>{data.client.billing_address}</Text> : null}
+            {data.client.contact_person ? (
+              <Text style={{ fontSize: 9 }}>{data.client.contact_person}</Text>
+            ) : null}
+            {data.client.email ? (
+              <Text style={{ fontSize: 9, color: "#64748b" }}>{data.client.email}</Text>
+            ) : null}
+            {data.client.phone ? (
+              <Text style={{ fontSize: 9, color: "#64748b" }}>{data.client.phone}</Text>
+            ) : null}
+            {data.client.billing_address ? (
+              <Text style={{ fontSize: 9, color: "#64748b", marginTop: 2 }}>
+                {data.client.billing_address}
+              </Text>
+            ) : null}
           </View>
           <View style={[s.col, s.block]}>
             <Text style={s.label}>Project</Text>
             <Text style={s.value}>{data.title || "Untitled Project"}</Text>
-            <Text style={{ fontSize: 9, color: "#64748b", marginTop: 4 }}>Currency: {data.currency}</Text>
+            <Text style={{ fontSize: 9, color: "#64748b", marginTop: 4 }}>
+              Currency: {data.currency}
+            </Text>
           </View>
         </View>
 
@@ -114,7 +184,9 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
               {data.features.map((f) => (
                 <View key={f.id} style={[s.featureRow, { width: "50%" }]}>
                   {f.included ? <Text style={s.check}>✓</Text> : <Text style={s.uncheck}> </Text>}
-                  <Text style={{ fontSize: 9, color: f.included ? "#0f172a" : "#94a3b8" }}>{f.label}</Text>
+                  <Text style={{ fontSize: 9, color: f.included ? "#0f172a" : "#94a3b8" }}>
+                    {f.label}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -133,7 +205,9 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
               <View key={m.id} style={s.tr}>
                 <Text style={[s.td, { flex: 3 }]}>{m.label}</Text>
                 <Text style={[s.td, { flex: 1, textAlign: "right" }]}>{m.percent}%</Text>
-                <Text style={[s.td, { flex: 2, textAlign: "right", fontWeight: 600 }]}>{money((data.subtotal * m.percent) / 100)}</Text>
+                <Text style={[s.td, { flex: 2, textAlign: "right", fontWeight: 600 }]}>
+                  {money((data.subtotal * m.percent) / 100)}
+                </Text>
               </View>
             ))}
           </View>
@@ -153,10 +227,24 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
 
         <View style={{ ...s.section, alignItems: "flex-end" }}>
           <View style={{ width: 220 }}>
-            <View style={s.totalCell}><Text>Subtotal</Text><Text>{money(data.subtotal)}</Text></View>
-            <View style={s.totalCell}><Text>Discount ({data.discountPercent}%)</Text><Text>-{money(data.subtotal - subtotalAfterDiscount)}</Text></View>
-            <View style={s.totalCell}><Text>Tax ({data.taxPercent}%)</Text><Text>{money(taxAmount)}</Text></View>
-            <View style={[s.totalCell, { borderTopWidth: 1, borderTopColor: "#2563eb", paddingTop: 6, marginTop: 4 }]}>
+            <View style={s.totalCell}>
+              <Text>Subtotal</Text>
+              <Text>{money(data.subtotal)}</Text>
+            </View>
+            <View style={s.totalCell}>
+              <Text>Discount ({data.discountPercent}%)</Text>
+              <Text>-{money(data.subtotal - subtotalAfterDiscount)}</Text>
+            </View>
+            <View style={s.totalCell}>
+              <Text>Tax ({data.taxPercent}%)</Text>
+              <Text>{money(taxAmount)}</Text>
+            </View>
+            <View
+              style={[
+                s.totalCell,
+                { borderTopWidth: 1, borderTopColor: "#2563eb", paddingTop: 6, marginTop: 4 },
+              ]}
+            >
               <Text style={s.grandTotal}>Total</Text>
               <Text style={s.grandTotal}>{money(data.total)}</Text>
             </View>
@@ -167,11 +255,23 @@ export function QuotationPdf({ data }: { data: QuotationPdfData }) {
           <View style={s.section}>
             <Text style={s.h2}>Payment Details</Text>
             <View style={s.block}>
-              {data.company.bank_details?.account_name ? <Text style={{ fontSize: 9 }}>Account: {data.company.bank_details.account_name}</Text> : null}
-              {data.company.bank_details?.account_number ? <Text style={{ fontSize: 9 }}>A/C: {data.company.bank_details.account_number}</Text> : null}
-              {data.company.bank_details?.ifsc ? <Text style={{ fontSize: 9 }}>IFSC: {data.company.bank_details.ifsc}</Text> : null}
-              {data.company.bank_details?.bank_name ? <Text style={{ fontSize: 9 }}>Bank: {data.company.bank_details.bank_name}</Text> : null}
-              {data.company.upi_id ? <Text style={{ fontSize: 9 }}>UPI: {data.company.upi_id}</Text> : null}
+              {data.company.bank_details?.account_name ? (
+                <Text style={{ fontSize: 9 }}>
+                  Account: {data.company.bank_details.account_name}
+                </Text>
+              ) : null}
+              {data.company.bank_details?.account_number ? (
+                <Text style={{ fontSize: 9 }}>A/C: {data.company.bank_details.account_number}</Text>
+              ) : null}
+              {data.company.bank_details?.ifsc ? (
+                <Text style={{ fontSize: 9 }}>IFSC: {data.company.bank_details.ifsc}</Text>
+              ) : null}
+              {data.company.bank_details?.bank_name ? (
+                <Text style={{ fontSize: 9 }}>Bank: {data.company.bank_details.bank_name}</Text>
+              ) : null}
+              {data.company.upi_id ? (
+                <Text style={{ fontSize: 9 }}>UPI: {data.company.upi_id}</Text>
+              ) : null}
             </View>
           </View>
         )}

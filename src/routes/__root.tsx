@@ -39,8 +39,7 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-  }, [error]);
+  useEffect(() => {}, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -79,9 +78,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "QuoteFlow AI — Quotes, Proposals & Invoices in Minutes" },
-      { name: "description", content: "AI-powered quotations, proposals, and invoices for freelancers, agencies, and IT companies. Beautiful PDFs, smart pricing, unlimited clients." },
+      {
+        name: "description",
+        content:
+          "AI-powered quotations, proposals, and invoices for freelancers, agencies, and IT companies. Beautiful PDFs, smart pricing, unlimited clients.",
+      },
       { property: "og:title", content: "QuoteFlow AI" },
-      { property: "og:description", content: "Generate professional quotations, proposals, invoices, and contracts with AI." },
+      {
+        property: "og:description",
+        content: "Generate professional quotations, proposals, invoices, and contracts with AI.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -93,7 +99,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,

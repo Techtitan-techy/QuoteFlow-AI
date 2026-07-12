@@ -5,9 +5,6 @@ import { AppShell } from "@/components/app-shell";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async () => {
-    if (localStorage.getItem("mock_admin") === "true") {
-      return { user: { email: "admin@quoteflow.ai", id: "mock-admin-123" } as any };
-    }
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw redirect({ to: "/auth" });
     return { user: data.user };

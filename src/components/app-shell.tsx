@@ -2,11 +2,28 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useTheme } from "@/components/theme-provider";
 import {
-  LayoutDashboard, Users, FileText, Settings, Sparkles, Moon, Sun, LogOut, Plus, Menu, X,
+  LayoutDashboard,
+  Users,
+  FileText,
+  Settings,
+  Sparkles,
+  Moon,
+  Sun,
+  LogOut,
+  Plus,
+  Menu,
+  X,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
@@ -45,7 +62,11 @@ export function AppShell({ children, email }: { children: ReactNode; email?: str
         )}
       >
         <div className="flex h-16 items-center justify-between border-b px-5">
-          <Link to="/dashboard" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-2"
+            onClick={() => setMobileOpen(false)}
+          >
             <div className="grid h-8 w-8 place-items-center rounded-lg gradient-primary shadow-elegant">
               <Sparkles className="h-4 w-4 text-white" />
             </div>
@@ -57,8 +78,14 @@ export function AppShell({ children, email }: { children: ReactNode; email?: str
         </div>
 
         <div className="p-3">
-          <Button asChild className="w-full gap-2 shadow-elegant" onClick={() => setMobileOpen(false)}>
-            <Link to="/quotations/new"><Plus className="h-4 w-4" /> New Quotation</Link>
+          <Button
+            asChild
+            className="w-full gap-2 shadow-elegant"
+            onClick={() => setMobileOpen(false)}
+          >
+            <Link to="/quotations/new">
+              <Plus className="h-4 w-4" /> New Quotation
+            </Link>
           </Button>
         </div>
 
@@ -90,7 +117,10 @@ export function AppShell({ children, email }: { children: ReactNode; email?: str
       </aside>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setMobileOpen(false)} />
+        <div
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
       )}
 
       {/* Main */}
@@ -116,7 +146,9 @@ export function AppShell({ children, email }: { children: ReactNode; email?: str
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel className="truncate">{email ?? "Account"}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild><Link to="/settings">Company settings</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/settings">Company settings</Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={signOut} className="text-destructive">
                 <LogOut className="mr-2 h-4 w-4" /> Sign out

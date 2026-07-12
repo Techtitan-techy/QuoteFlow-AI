@@ -1,10 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { createClient } from "@supabase/supabase-js";
 
 const InputSchema = z.object({
   documentation: z.string().min(10),
   projectName: z.string().optional(),
+  accessToken: z.string().min(1, "Authentication required"),
 });
 
 type AIResult = {
@@ -33,10 +34,20 @@ function extractJson(text: string): unknown {
   return JSON.parse(cleaned.slice(first, last + 1));
 }
 
+async function verifyToken(token: string): Promise<void> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) throw new Error("Missing Supabase environment variables");
+  const supabase = createClient(url, key, { auth: { persistSession: false } });
+  const { data, error } = await supabase.auth.getUser(token);
+  if (error || !data.user) throw new Error("Unauthorized: Invalid session");
+}
+
 export const analyzeDocumentation = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => InputSchema.parse(data))
   .handler(async ({ data }): Promise<AIResult> => {
+    await verifyToken(data.accessToken);
+
     const key = process.env.GEMINI_API_KEY;
     if (!key) throw new Error("GEMINI_API_KEY not configured");
 
@@ -90,7 +101,10 @@ ${data.documentation.slice(0, 30000)}`;
       deliverables: (parsed.deliverables ?? []).filter(Boolean).map(String),
       assumptions: (parsed.assumptions ?? []).filter(Boolean).map(String),
       milestones: Array.isArray(parsed.milestones)
-        ? parsed.milestones.map((m) => ({ label: String(m.label ?? ""), percent: Number(m.percent ?? 0) }))
+        ? parsed.milestones.map((m) => ({
+            label: String(m.label ?? ""),
+            percent: Number(m.percent ?? 0),
+          }))
         : [],
       timeline: Array.isArray(parsed.timeline)
         ? parsed.timeline.map((t) => ({ week: String(t.week ?? ""), label: String(t.label ?? "") }))

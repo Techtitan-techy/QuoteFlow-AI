@@ -11,8 +11,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const stored = (typeof window !== "undefined" && localStorage.getItem("qf-theme")) as Theme | null;
-    const prefers = typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const stored = (typeof window !== "undefined" &&
+      localStorage.getItem("qf-theme")) as Theme | null;
+    const prefers =
+      typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
     const initial = stored ?? prefers;
     setTheme(initial);
     document.documentElement.classList.toggle("dark", initial === "dark");
